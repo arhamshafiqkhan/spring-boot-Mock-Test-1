@@ -31,10 +31,25 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Student> getStudentById(@PathVariable long id) {
-        Optional<Student> student = service.findStudentById(id);
+    public Student getStudentById(@PathVariable long id) {
+        Student student = service.findStudentById(id);
         return student;
     }
+
+    // Using Query Param
+    @GetMapping("/search")
+    public List<Student> searchStudent(@RequestParam("id") long id, @RequestParam(value = "name", required = false) String name) {
+        List<Student> studentList = service.searchStudents(id, name);
+        return studentList;
+    }
+
+//    @GetMapping("/search")
+//    public List<Student> searchStudent(@RequestParam("id") long id, @RequestParam(value = "name", required = false) String name,
+//                                 @RequestParam("age") int age, @RequestParam("hobby") String hobby,
+//                                 @RequestParam("rollNo") int rollNo, @RequestParam("teacherId") long teacherId) {
+//        List<Student> studentList = service.searchStudents(id, name, age, hobby, rollNo, teacherId);
+//        return studentList;
+//    }
 
     @PostMapping
     public Student saveStudent(@RequestBody Student student) {
@@ -43,8 +58,8 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable long id, @RequestBody Student student) {
-        Student updatedStudent = service.updateStudent(id, student);
+    public Student updateStudent(@PathVariable long id, @PathVariable boolean isActive, @RequestBody Student student) {
+        Student updatedStudent = service.updateStudent(id, isActive, student);
         return updatedStudent;
     }
 

@@ -22,16 +22,26 @@ public class StudentService {
     private RestTemplate restTemplate;
     public List<Student> findAllStudents() {
         List<Student> studentList = new ArrayList<>();
-        studentList = repository.findAllActive();
+        studentList = repository.findActiveAll(true);
 //        studentList = repository.findAll();
         return studentList;
     }
 
-    public Optional<Student> findStudentById(long id) {
+    public Student findStudentById(long id) {
 //        Optional<Student> student = repository.findById(id);
-        Optional<Student> student = repository.findByIdActive(id);
+        Student student = repository.findByIdAndIsActive(id, true);
         return student;
     }
+
+    public List<Student> searchStudents(long id, String name) {
+        List<Student> studentList = repository.findByQueryParam(id, name, true);
+        return studentList;
+    }
+
+//    public List<Student> searchStudents(long id, String name, int age, String hobby, int rollNo, long teacherId) {
+//        List<Student> studentList = repository.findBy(id, name, age, hobby, rollNo, teacherId, true);
+//        return studentList;
+//    }
 
     public Student saveStudent(Student student) {
         Student savedStudent = new Student();
@@ -39,11 +49,11 @@ public class StudentService {
         return savedStudent;
     }
 
-    public Student updateStudent(long id, Student student) {
-        boolean isStudentPresent = repository.findByIdActive(id).isPresent();
+    public Student updateStudent(long id, boolean isActive, Student student) {
+//        boolean isStudentPresent = repository.findByIdAndIsActive(id, isActive).isPresent();
 //        Student updateStudent = repository.findById(id).get();
-        Student updateStudent = repository.findByIdActive(id).get();
-        if (isStudentPresent) {
+        Student updateStudent = repository.findByIdAndIsActive(id, isActive);
+        if (updateStudent != null) {
             updateStudent.setName(student.getName());
             updateStudent.setAge(student.getAge());
             updateStudent.setHobby(student.getHobby());
@@ -70,11 +80,11 @@ public class StudentService {
 
     public Boolean deleteStudent(long id) {
         boolean isDeleted = false;
-        Optional<Student> student;
-        student = repository.findById(id);
-        if (student.isPresent()) {
-            student.get().setActive(false);
-            repository.save(student.get());
+        Student student;
+        student = repository.findByIdAndIsActive(id, true);
+        if (student != null) {
+            student.setActive(false);
+            repository.save(student);
             isDeleted = true;
         }
 
@@ -122,6 +132,7 @@ public class StudentService {
         vo2.setStudentList(studentList);
         return vo2;
     }
+
 
 
 
