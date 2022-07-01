@@ -12,21 +12,21 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    @Query(value = "SELECT * FROM Student WHERE Student.age = ?1", nativeQuery = true)
+//    @Query(value = "SELECT * FROM Student WHERE Student.age = ?1", nativeQuery = true)
     List<Student> findAllByAge(int age);
 
-    @Query(value = "SELECT * FROM Student WHERE Student.hobby = ?1", nativeQuery = true)
+//    @Query(value = "SELECT * FROM Student WHERE Student.hobby = ?1", nativeQuery = true)
     List<Student> findAllByHobby(String hobby);
 
-    List<Student> findAllByTeacherId(long teacherId);
+    List<Student> findAllByTeacherIdAndIsActive(long teacherId, boolean isActive);
 
-    @Query(value = "SELECT * FROM Student WHERE Student.is_active = ?1", nativeQuery = true)
-    List<Student> findActiveAll(boolean isActive);
+//    @Query(value = "SELECT * FROM Student WHERE Student.is_active = ?1", nativeQuery = true)
+    List<Student> findAllByIsActive(boolean isActive);
 
 //    @Query(value = "SELECT * FROM Student WHERE Student.id = ?1 AND Student.is_active = true", nativeQuery = true)
     Student findByIdAndIsActive(long id, boolean isActive);
 
-    List<Student> findByQueryParam(long id, String name, boolean isActive);
+//    List<Student> findByQueryParam(long id, String name, boolean isActive);
 
 
 //    List<Student> findBy(long id, String name, int age, String hobby, int rollNo, long teacherId, boolean isActive);

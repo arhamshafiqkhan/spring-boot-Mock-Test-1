@@ -37,11 +37,11 @@ public class StudentController {
     }
 
     // Using Query Param
-    @GetMapping("/search")
-    public List<Student> searchStudent(@RequestParam("id") long id, @RequestParam(value = "name", required = false) String name) {
-        List<Student> studentList = service.searchStudents(id, name);
-        return studentList;
-    }
+//    @GetMapping("/search")
+//    public List<Student> searchStudent(@RequestParam("id") long id, @RequestParam(value = "name", required = false) String name) {
+//        List<Student> studentList = service.searchStudents(id, name);
+//        return studentList;
+//    }
 
 //    @GetMapping("/search")
 //    public List<Student> searchStudent(@RequestParam("id") long id, @RequestParam(value = "name", required = false) String name,
@@ -58,16 +58,16 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable long id, @PathVariable boolean isActive, @RequestBody Student student) {
-        Student updatedStudent = service.updateStudent(id, isActive, student);
+    public Student updateStudent(@PathVariable long id, @RequestBody Student student) {
+        Student updatedStudent = service.updateStudent(id, student);
         return updatedStudent;
     }
 
-    @PatchMapping("/patch/{id}")
-    public Student patchUpdateStudent(@PathVariable long id, @RequestBody Student student) {
-        Student updatedStudent = service.patchUpdateStudent(id, student);
-        return updatedStudent;
-    }
+//    @PatchMapping("/patch/{id}")
+//    public Student patchUpdateStudent(@PathVariable long id, @RequestBody Student student) {
+//        Student updatedStudent = service.patchUpdateStudent(id, student);
+//        return updatedStudent;
+//    }
 
     @DeleteMapping("/{id}")
     public Boolean deleteStudent(@PathVariable long id) {

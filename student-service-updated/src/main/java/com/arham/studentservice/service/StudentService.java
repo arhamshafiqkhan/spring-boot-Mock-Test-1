@@ -22,21 +22,19 @@ public class StudentService {
     private RestTemplate restTemplate;
     public List<Student> findAllStudents() {
         List<Student> studentList = new ArrayList<>();
-        studentList = repository.findActiveAll(true);
-//        studentList = repository.findAll();
+        studentList = repository.findAllByIsActive(true);
         return studentList;
     }
 
     public Student findStudentById(long id) {
-//        Optional<Student> student = repository.findById(id);
         Student student = repository.findByIdAndIsActive(id, true);
         return student;
     }
 
-    public List<Student> searchStudents(long id, String name) {
-        List<Student> studentList = repository.findByQueryParam(id, name, true);
-        return studentList;
-    }
+//    public List<Student> searchStudents(long id, String name) {
+//        List<Student> studentList = repository.findByQueryParam(id, name, true);
+//        return studentList;
+//    }
 
 //    public List<Student> searchStudents(long id, String name, int age, String hobby, int rollNo, long teacherId) {
 //        List<Student> studentList = repository.findBy(id, name, age, hobby, rollNo, teacherId, true);
@@ -44,15 +42,13 @@ public class StudentService {
 //    }
 
     public Student saveStudent(Student student) {
-        Student savedStudent = new Student();
-        savedStudent = repository.save(student);
-        return savedStudent;
+        Student saveStudent = new Student();
+        saveStudent = repository.save(student);
+        return saveStudent;
     }
 
-    public Student updateStudent(long id, boolean isActive, Student student) {
-//        boolean isStudentPresent = repository.findByIdAndIsActive(id, isActive).isPresent();
-//        Student updateStudent = repository.findById(id).get();
-        Student updateStudent = repository.findByIdAndIsActive(id, isActive);
+    public Student updateStudent(long id, Student student) {
+        Student updateStudent = repository.findByIdAndIsActive(id, true);
         if (updateStudent != null) {
             updateStudent.setName(student.getName());
             updateStudent.setAge(student.getAge());
@@ -68,15 +64,15 @@ public class StudentService {
         return updateStudent;
     }
 
-    public Student patchUpdateStudent(long id, Student student) {
-        boolean isStudentPresent = repository.findById(id).isPresent();
-        Student updateStudent = repository.findById(id).get();
-        if (isStudentPresent) {
-            updateStudent.setActive(student.isActive());
-            repository.save(updateStudent);
-        }
-        return updateStudent;
-    }
+//    public Student patchUpdateStudent(long id, Student student) {
+//        boolean isStudentPresent = repository.findById(id).isPresent();
+//        Student updateStudent = repository.findById(id).get();
+//        if (isStudentPresent) {
+//            updateStudent.setActive(student.isActive());
+//            repository.save(updateStudent);
+//        }
+//        return updateStudent;
+//    }
 
     public Boolean deleteStudent(long id) {
         boolean isDeleted = false;
@@ -87,11 +83,6 @@ public class StudentService {
             repository.save(student);
             isDeleted = true;
         }
-
-//        if (repository.findById(id).isPresent()) {
-//            repository.deleteById(id);
-//            isDeleted = true;
-//        }
         return isDeleted;
     }
 
@@ -109,7 +100,7 @@ public class StudentService {
 
     public List<Student> getStudentsByTeacherId(long teacherId) {
         List<Student> studentList = new ArrayList<>();
-        studentList = repository.findAllByTeacherId(teacherId);
+        studentList = repository.findAllByTeacherIdAndIsActive(teacherId, true);
         return studentList;
     }
 
